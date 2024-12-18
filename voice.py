@@ -10,9 +10,9 @@ sys.path.append('{}/third_party/Matcha-TTS'.format(ROOT_DIR))
 
 class Voice:
     def __init__(self):
-        self.cosyvoice = CosyVoice('pretrained_models/CosyVoice-300M')
+        #self.cosyvoice = CosyVoice('pretrained_models/CosyVoice-300M')
         # self.cosyvoice = CosyVoice('pretrained_models/CosyVoice-300M')
-        # self.cosyvoice = CosyVoice('pretrained_models/CosyVoice-300M-Instruct')
+        self.cosyvoice = CosyVoice('pretrained_models/CosyVoice-300M-Instruct')
         # print(self.cosyvoice.list_avaliable_spks())
 
     def say(self, text):
@@ -48,8 +48,9 @@ class Voice:
 
     def prompt_tts(self, text, prompt=""):
         filename = ""
+        print(self.cosyvoice.list_avaliable_spks())
         # instruct usage, support <laughter></laughter><strong></strong>[laughter][breath]
-        for i, j in enumerate(self.cosyvoice.inference_instruct(text,'中文男', prompt, stream=False)):
+        for i, j in enumerate(self.cosyvoice.inference_instruct(text, '日语男', prompt, stream=False)):
             filename = 'instruct_{}.wav'.format(i)
             torchaudio.save(filename, j['tts_speech'], 22050)
 
@@ -73,6 +74,6 @@ class Voice:
 
 if __name__ == '__main__':
     v = Voice()
-    v.say("你好，你今天过得怎么样，吃午饭了吗？")
+    # v.say("你好，你今天过得怎么样，吃午饭了吗？")
     # v.clone("Hello there, how are you doing this fine thursday evening? My name is Austin Brain, what is your name?")
-    # v.prompt_tts("Hello there, <laughter>how are you</laughter> doing this fine thursday evening? [breath]My name is Austin Brain, [laughter]what is your name?", "A female speaker")
+    v.prompt_tts("Hello there, <laughter>how are you</laughter> doing this fine thursday evening? [breath]My name is Austin Brain, [laughter] what is your name?", "A female speaker")
